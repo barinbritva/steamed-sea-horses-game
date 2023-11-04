@@ -7,12 +7,11 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "AMD",
+    "module": "ES6",
     "moduleResolution": "Node",
     "target": "ES2015",
-    "outDir": "./dist",
+    "outDir": "./public/scripts",
     "declaration": true,
-    // "declarationDir": "./dist/__types__",
     "resolveJsonModule": true,
     // Production specific
     "removeComments": true,
@@ -28,8 +27,7 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "outFile": "./public/scripts/index.js"
+    "strictPropertyInitialization": true
   },
   "include": ["./src"]
 }
