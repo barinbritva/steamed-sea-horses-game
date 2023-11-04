@@ -1,0 +1,21 @@
+{
+  "name": "horse-game",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "files": [
+    "/dist"
+  ],
+  "types": "./dist/__types__",
+  "engines": {
+    "node": ">=12.10.0"
+  },
+  "engineStrict": true,
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc --project ./tsconfig-dev.json -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.2"
+  }
+}
