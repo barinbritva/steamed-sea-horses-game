@@ -15,8 +15,9 @@ export class Game {
     private enemies: Enemy[];
     private enemyTimer: number;
     private enemyInterval: number;
-    private gameOver: boolean;
-    private score: number = 0;
+    public gameOver: boolean;
+    public score: number = 0;
+    public winningScore: number = 10;
 
     constructor(public width: number, public height: number) {
         new InputHandler(this);
@@ -55,6 +56,9 @@ export class Game {
                     if (enemy.lives <= 0) {
                         enemy.markedForDeletion = true;
                         this.score += enemy.score;
+                        if (this.score >= this.winningScore) {
+                            this.gameOver = true;
+                        }
                     }
                 }
             });
