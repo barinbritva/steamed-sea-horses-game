@@ -1,3 +1,4 @@
+import {Background} from './Background';
 import {Angler1, Enemy} from './Enemy';
 import {InputHandler} from './InputHandler';
 import {Item} from './Item';
@@ -5,6 +6,7 @@ import {Player} from './Player';
 import {UI} from './UI';
 
 export class Game {
+	private background: Background;
 	public player: Player;
 	private ui: UI;
 	public keys: string[];
@@ -20,12 +22,14 @@ export class Game {
 	public winningScore: number = 10;
 	public gameTime: number = 0;
 	public gameLimit: number = 5000;
+	public speed: number = 1;
 
 	constructor(
 		public width: number,
 		public height: number
 	) {
 		new InputHandler(this);
+		this.background = new Background(this);
 		this.player = new Player(this);
 		this.ui = new UI(this);
 		this.keys = [];
@@ -45,6 +49,8 @@ export class Game {
 		if (this.gameTime > this.gameLimit) {
 			this.gameOver = true;
 		}
+		this.background.update();
+		this.background.layer4.update();
 		this.player.update();
 		if (this.ammoTimer > this.ammoInterval) {
 			if (this.ammo < this.maxAmmo) {
@@ -88,11 +94,13 @@ export class Game {
 	}
 
 	draw(context: CanvasRenderingContext2D) {
+		this.background.draw(context);
 		this.player.draw(context);
 		this.ui.draw(context);
 		this.enemies.forEach((enemy) => {
 			enemy.draw(context);
 		});
+		this.background.layer4.draw(context);
 	}
 
 	addEnemy() {
