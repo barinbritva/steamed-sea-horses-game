@@ -6,6 +6,7 @@ export class Projectile implements Box {
 	public height: number;
 	private speed: number;
 	public markedForDeletion: boolean;
+	private image: HTMLImageElement;
 
 	constructor(
 		private game: Game,
@@ -16,6 +17,7 @@ export class Projectile implements Box {
 		this.height = 3;
 		this.speed = 3;
 		this.markedForDeletion = false;
+		this.image = document.getElementById('projectile') as HTMLImageElement;
 	}
 
 	update() {
@@ -26,7 +28,9 @@ export class Projectile implements Box {
 	}
 
 	draw(context: CanvasRenderingContext2D) {
-		context.fillStyle = 'yellow';
-		context.fillRect(this.x, this.y, this.width, this.height);
+		if (this.game.debug) {
+			context.strokeRect(this.x, this.y, this.width, this.height);
+		}
+		context.drawImage(this.image, this.x, this.y);
 	}
 }
