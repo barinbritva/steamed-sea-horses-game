@@ -5,7 +5,7 @@ window.addEventListener("load", function () {
     if (!(canvas instanceof HTMLCanvasElement)) {
         throw new Error("Canvas not found");
     }
-    canvas.width = 1500;
+    canvas.width = 500;
     canvas.height = 500;
 
     const ctx = canvas.getContext("2d");

@@ -2,15 +2,15 @@ import { InputHandler } from "./InputHandler";
 import { Player } from "./Player";
 
 export class Game {
-    player: Player;
-    inputHandler: InputHandler;
-    keys: string[];
-    ammo: number;
-    maxAmmo: number;
-    ammoTimer: number;
-    ammoInterval: number;
+    public player: Player;
+    private inputHandler: InputHandler;
+    public keys: string[];
+    public ammo: number;
+    private maxAmmo: number;
+    private ammoTimer: number;
+    private ammoInterval: number;
 
-    constructor(private width: number, private height: number) {
+    constructor(public width: number, private height: number) {
         this.player = new Player(this);
         this.inputHandler = new InputHandler(this);
         this.keys = [];
