@@ -16,7 +16,8 @@ export abstract class Enemy implements Box, Sprite {
 		public width: number,
 		public height: number,
 		public lives: number,
-		public score: number
+		public score: number,
+		public type: 'generic' | 'lucky' = 'generic'
 	) {
 		this.speedX = Math.random() * -1.5 - 0.5;
 		this.markedForDeletion = false;
@@ -94,6 +95,29 @@ export class Angler2 extends Enemy {
 			height,
 			3,
 			3
+		);
+	}
+}
+
+export class LuckyFish extends Enemy {
+	constructor(game: Game) {
+		const width = 99;
+		const height = 95;
+		const image = document.getElementById('lucky') as HTMLImageElement;
+		const frameY = Math.floor(Math.random() * 2);
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.9 - height),
+			width,
+			height,
+			3,
+			15,
+			'lucky'
 		);
 	}
 }
