@@ -1,7 +1,7 @@
 import {Game} from './Game';
-import {Item} from './Item';
+import {Box} from './Protocol';
 
-export class Projectile implements Item {
+export class Projectile implements Box {
 	public width: number;
 	public height: number;
 	private speed: number;

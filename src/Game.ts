@@ -1,7 +1,7 @@
 import {Background} from './Background';
 import {Angler1, Enemy} from './Enemy';
 import {InputHandler} from './InputHandler';
-import {Item} from './Item';
+import {Box} from './Protocol';
 import {Player} from './Player';
 import {UI} from './UI';
 
@@ -26,7 +26,8 @@ export class Game {
 
 	constructor(
 		public width: number,
-		public height: number
+		public height: number,
+		public debug: boolean = false
 	) {
 		new InputHandler(this);
 		this.background = new Background(this);
@@ -107,7 +108,7 @@ export class Game {
 		this.enemies.push(new Angler1(this));
 	}
 
-	checkCollision(rect1: Item, rect2: Item) {
+	checkCollision(rect1: Box, rect2: Box) {
 		return (
 			rect1.x < rect2.x + rect2.width &&
 			rect1.x + rect1.width > rect2.x &&

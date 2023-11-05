@@ -1,8 +1,8 @@
 import {Game} from './Game';
-import {Item} from './Item';
+import {Box} from './Protocol';
 import {Projectile} from './Projectile';
 
-export class Player implements Item {
+export class Player implements Box {
 	width: number;
 	height: number;
 	x: number;
@@ -53,8 +53,9 @@ export class Player implements Item {
 	}
 
 	draw(context: CanvasRenderingContext2D) {
-		context.fillStyle = 'black';
-		// context.fillRect(this.x, this.y, this.width, this.height);
+		if (this.game.debug) {
+			context.strokeRect(this.x, this.y, this.width, this.height);
+		}
 		context.drawImage(
 			this.image,
 			this.frameX * this.width,

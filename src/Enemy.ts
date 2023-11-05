@@ -1,7 +1,7 @@
 import {Game} from './Game';
-import {Item} from './Item';
+import {Box, Sprite} from './Protocol';
 
-export abstract class Enemy implements Item {
+export abstract class Enemy implements Box, Sprite {
 	protected speedX: number;
 	public markedForDeletion: boolean;
 	public lives: number = 5;
@@ -9,6 +9,10 @@ export abstract class Enemy implements Item {
 
 	constructor(
 		protected game: Game,
+		public image: HTMLImageElement,
+		public frameX: number,
+		public frameY: number,
+		public maxFrame: number,
 		public x: number,
 		public y: number,
 		public width: number,
@@ -19,25 +23,53 @@ export abstract class Enemy implements Item {
 	}
 
 	update() {
-		this.x += this.speedX;
+		this.x += this.speedX - this.game.speed;
 		if (this.x + this.width < 0) {
 			this.markedForDeletion = true;
+		}
+		if (this.frameX < this.maxFrame) {
+			this.frameX++;
+		} else {
+			this.frameX = 0;
 		}
 	}
 
 	draw(context: CanvasRenderingContext2D) {
-		context.fillStyle = 'red';
-		context.fillRect(this.x, this.y, this.width, this.height);
-		context.fillStyle = 'black';
-		context.font = '20px Helvetica';
-		context.fillText(String(this.lives), this.x, this.y);
+		if (this.game.debug) {
+			context.strokeRect(this.x, this.y, this.width, this.height);
+			context.font = '20px Helvetica';
+			context.fillText(String(this.lives), this.x, this.y);
+		}
+		context.drawImage(
+			this.image,
+			this.frameX * this.width,
+			this.frameY * this.height,
+			this.width,
+			this.height,
+			this.x,
+			this.y,
+			this.width,
+			this.height
+		);
 	}
 }
 
 export class Angler1 extends Enemy {
 	constructor(game: Game) {
-		const width = 228 * 0.2;
-		const height = 169 * 0.2;
-		super(game, game.width, Math.random() * (game.height * 0.9 - height), width, height);
+		const width = 228;
+		const height = 169;
+		const image = document.getElementById('angler1') as HTMLImageElement;
+		const frameY = Math.floor(Math.random() * 3);
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.9 - height),
+			width,
+			height
+		);
 	}
 }
