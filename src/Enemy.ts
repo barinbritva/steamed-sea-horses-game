@@ -4,8 +4,6 @@ import {Box, Sprite} from './Protocol';
 export abstract class Enemy implements Box, Sprite {
 	protected speedX: number;
 	public markedForDeletion: boolean;
-	public lives: number = 5;
-	public score: number = 5;
 
 	constructor(
 		protected game: Game,
@@ -16,7 +14,9 @@ export abstract class Enemy implements Box, Sprite {
 		public x: number,
 		public y: number,
 		public width: number,
-		public height: number
+		public height: number,
+		public lives: number,
+		public score: number
 	) {
 		this.speedX = Math.random() * -1.5 - 0.5;
 		this.markedForDeletion = false;
@@ -69,7 +69,31 @@ export class Angler1 extends Enemy {
 			game.width,
 			Math.random() * (game.height * 0.9 - height),
 			width,
-			height
+			height,
+			2,
+			2
+		);
+	}
+}
+
+export class Angler2 extends Enemy {
+	constructor(game: Game) {
+		const width = 213;
+		const height = 165;
+		const image = document.getElementById('angler2') as HTMLImageElement;
+		const frameY = Math.floor(Math.random() * 2);
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.9 - height),
+			width,
+			height,
+			3,
+			3
 		);
 	}
 }

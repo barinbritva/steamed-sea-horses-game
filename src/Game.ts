@@ -1,5 +1,5 @@
 import {Background} from './Background';
-import {Angler1, Enemy} from './Enemy';
+import {Angler1, Angler2, Enemy} from './Enemy';
 import {InputHandler} from './InputHandler';
 import {Box} from './Protocol';
 import {Player} from './Player';
@@ -21,7 +21,7 @@ export class Game {
 	public score: number = 0;
 	public winningScore: number = 10;
 	public gameTime: number = 0;
-	public gameLimit: number = 5000;
+	public timeLimit: number = 15000;
 	public speed: number = 1;
 
 	constructor(
@@ -47,7 +47,7 @@ export class Game {
 		if (!this.gameOver) {
 			this.gameTime += deltaTime;
 		}
-		if (this.gameTime > this.gameLimit) {
+		if (this.gameTime > this.timeLimit) {
 			this.gameOver = true;
 		}
 		this.background.update();
@@ -105,7 +105,12 @@ export class Game {
 	}
 
 	addEnemy() {
-		this.enemies.push(new Angler1(this));
+		const randomize = Math.random();
+		if (randomize < 0.5) {
+			this.enemies.push(new Angler1(this));
+		} else {
+			this.enemies.push(new Angler2(this));
+		}
 	}
 
 	checkCollision(rect1: Box, rect2: Box) {
