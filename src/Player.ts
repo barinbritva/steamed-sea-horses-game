@@ -43,6 +43,15 @@ export class Player implements Box {
 		}
 		this.y += this.speedY;
 
+		// vertical bounds
+		const maxBottomPosition = this.game.height - this.height * 0.5;
+		const maxTopPosition = this.height * 0.5;
+		if (this.y > maxBottomPosition) {
+			this.y = maxBottomPosition;
+		} else if (this.y < -maxTopPosition) {
+			this.y = -maxTopPosition;
+		}
+
 		// projectiles
 		this.projectiles.forEach((projectile) => {
 			projectile.update();
