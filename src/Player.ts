@@ -122,6 +122,8 @@ export class Player implements Box {
 	enterPowerUp() {
 		this.powerUp = true;
 		this.powerUpTimer = 0;
-		this.game.ammo = this.game.maxAmmo;
+		if (this.game.ammo < this.game.maxAmmo) {
+			this.game.ammo = this.game.maxAmmo;
+		}
 	}
 }

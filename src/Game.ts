@@ -4,6 +4,7 @@ import {InputHandler} from './InputHandler';
 import {Box} from './Protocol';
 import {Player} from './Player';
 import {UI} from './UI';
+import {Particle} from './Particle';
 
 export class Game {
 	private background: Background;
@@ -23,6 +24,7 @@ export class Game {
 	public gameTime: number = 0;
 	public timeLimit: number = 15000;
 	public speed: number = 1;
+	public particles: Particle[];
 
 	constructor(
 		public width: number,
@@ -42,6 +44,7 @@ export class Game {
 		this.enemyTimer = 0;
 		this.enemyInterval = 1000;
 		this.gameOver = false;
+		this.particles = [];
 	}
 	update(deltaTime: number) {
 		if (!this.gameOver) {
@@ -62,10 +65,26 @@ export class Game {
 			this.ammoTimer += deltaTime;
 		}
 
+		// particles
+		this.particles.forEach((particle) => {
+			particle.update();
+		});
+		this.particles = this.particles.filter((particle) => {
+			return !particle.markedForDeletion;
+		});
+
+		// enemies
 		this.enemies.forEach((enemy) => {
 			enemy.update();
 			if (this.checkCollision(this.player, enemy)) {
 				enemy.markedForDeletion = true;
+
+				for (let i = 0; i < 10; i++) {
+					this.particles.push(
+						new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5)
+					);
+				}
+
 				if (enemy.type === 'lucky') {
 					this.player.enterPowerUp();
 				} else {
@@ -76,11 +95,24 @@ export class Game {
 				if (this.checkCollision(projectile, enemy)) {
 					enemy.lives--;
 					projectile.markedForDeletion = true;
+
+					this.particles.push(
+						new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5)
+					);
+
 					if (enemy.lives <= 0) {
 						enemy.markedForDeletion = true;
+
+						for (let i = 0; i < 10; i++) {
+							this.particles.push(
+								new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5)
+							);
+						}
+
 						if (!this.gameOver) {
 							this.score += enemy.score;
 						}
+
 						if (this.score >= this.winningScore) {
 							this.gameOver = true;
 						}
@@ -101,8 +133,11 @@ export class Game {
 
 	draw(context: CanvasRenderingContext2D) {
 		this.background.draw(context);
-		this.player.draw(context);
 		this.ui.draw(context);
+		this.player.draw(context);
+		this.particles.forEach((particle) => {
+			particle.draw(context);
+		});
 		this.enemies.forEach((enemy) => {
 			enemy.draw(context);
 		});
