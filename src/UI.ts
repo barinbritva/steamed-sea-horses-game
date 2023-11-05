@@ -20,12 +20,19 @@ export class UI {
         context.shadowOffsetY = 2;
         context.shadowColor = "black";
 
+        // score
         context.fillText("Score: " + this.game.score, 20, 40);
 
+        // ammo
         for (let i = 0; i < this.game.ammo; i++) {
             context.fillRect(20 + 5 * i, 50, 3, 20);
         }
 
+        // timer
+        const formattedTime = (this.game.gameTime * 0.001).toFixed(1);
+        context.fillText("Timer: " + formattedTime, 20, 100);
+
+        // game over
         if (this.game.gameOver) {
             let message1 = "";
             let message2 = ""

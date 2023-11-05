@@ -18,6 +18,8 @@ export class Game {
     public gameOver: boolean;
     public score: number = 0;
     public winningScore: number = 10;
+    public gameTime: number = 0;
+    public gameLimit: number = 5000;
 
     constructor(public width: number, public height: number) {
         new InputHandler(this);
@@ -34,6 +36,12 @@ export class Game {
         this.gameOver = false
     }
     update(deltaTime: number) {
+        if (!this.gameOver) {
+            this.gameTime += deltaTime;
+        }
+        if (this.gameTime > this.gameLimit) {
+            this.gameOver = true;
+        }
         this.player.update();
         if (this.ammoTimer > this.ammoInterval) {
             if (this.ammo < this.maxAmmo) {
@@ -55,7 +63,9 @@ export class Game {
                     projectile.markedForDeletion = true;
                     if (enemy.lives <= 0) {
                         enemy.markedForDeletion = true;
-                        this.score += enemy.score;
+                        if (!this.gameOver) {
+                            this.score += enemy.score;
+                        }
                         if (this.score >= this.winningScore) {
                             this.gameOver = true;
                         }
