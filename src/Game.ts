@@ -1,9 +1,11 @@
 import { InputHandler } from "./InputHandler";
 import { Player } from "./Player";
+import { UI } from "./UI";
 
 export class Game {
     public player: Player;
-    private inputHandler: InputHandler;
+    private input: InputHandler;
+    private ui: UI;
     public keys: string[];
     public ammo: number;
     private maxAmmo: number;
@@ -12,7 +14,8 @@ export class Game {
 
     constructor(public width: number, private height: number) {
         this.player = new Player(this);
-        this.inputHandler = new InputHandler(this);
+        this.input = new InputHandler(this);
+        this.ui = new UI(this);
         this.keys = [];
         this.ammo = 20;
         this.maxAmmo = 50;
@@ -32,5 +35,6 @@ export class Game {
     }
     draw(context: CanvasRenderingContext2D) {
         this.player.draw(context);
+        this.ui.draw(context);
     }
 }
