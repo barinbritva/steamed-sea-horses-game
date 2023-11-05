@@ -1,11 +1,11 @@
 import { Angler1, Enemy } from "./Enemy";
 import { InputHandler } from "./InputHandler";
+import { Item } from "./Item";
 import { Player } from "./Player";
 import { UI } from "./UI";
 
 export class Game {
     public player: Player;
-    private input: InputHandler;
     private ui: UI;
     public keys: string[];
     public ammo: number;
@@ -16,10 +16,11 @@ export class Game {
     private enemyTimer: number;
     private enemyInterval: number;
     private gameOver: boolean;
+    private score: number = 0;
 
     constructor(public width: number, public height: number) {
+        new InputHandler(this);
         this.player = new Player(this);
-        this.input = new InputHandler(this);
         this.ui = new UI(this);
         this.keys = [];
         this.ammo = 20;
@@ -44,6 +45,19 @@ export class Game {
 
         this.enemies.forEach((enemy) => {
             enemy.update();
+            if (this.checkCollision(this.player, enemy)) {
+                enemy.markedForDeletion = true;
+            }
+            this.player.projectiles.forEach((projectile) => {
+                if (this.checkCollision(projectile, enemy)) {
+                    enemy.lives--;
+                    projectile.markedForDeletion = true;
+                    if (enemy.lives <= 0) {
+                        enemy.markedForDeletion = true;
+                        this.score += enemy.score;
+                    }
+                }
+            });
         });
         this.enemies = this.enemies.filter((enemy) => {
             return !enemy.markedForDeletion;
@@ -66,5 +80,14 @@ export class Game {
 
     addEnemy() {
         this.enemies.push(new Angler1(this));
+    }
+
+    checkCollision(rect1: Item, rect2: Item) {
+        return (
+            rect1.x < rect2.x + rect2.width &&
+            rect1.x + rect1.width > rect2.x &&
+            rect1.y < rect2.y + rect2.height &&
+            rect1.y + rect1.height > rect2.y
+        );
     }
 }

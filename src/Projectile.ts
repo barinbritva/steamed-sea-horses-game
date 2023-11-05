@@ -1,12 +1,13 @@
 import { Game } from "./Game";
+import { Item } from "./Item";
 
-export class Projectile {
-    private width: number;
-    private height: number;
+export class Projectile implements Item {
+    public width: number;
+    public height: number;
     private speed: number;
     public markedForDeletion: boolean;
 
-    constructor(private game: Game, private x: number, private y: number,) {
+    constructor(private game: Game, public x: number, public y: number,) {
         this.width = 10;
         this.height = 3;
         this.speed = 3;

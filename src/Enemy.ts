@@ -1,10 +1,13 @@
 import { Game } from "./Game";
+import { Item } from "./Item";
 
-export abstract class Enemy {
+export abstract class Enemy implements Item {
     protected speedX: number;
     public markedForDeletion: boolean;
+    public lives: number = 5;
+    public score: number = 5;
 
-    constructor(protected game: Game, protected x: number, protected y: number, protected width: number, protected height: number) {
+    constructor(protected game: Game, public x: number, public y: number, public width: number, public height: number) {
         this.speedX = Math.random() * -1.5 - 0.5;
         this.markedForDeletion = false;
     }
@@ -19,6 +22,9 @@ export abstract class Enemy {
     draw(context: CanvasRenderingContext2D) {
         context.fillStyle = "red";
         context.fillRect(this.x, this.y, this.width, this.height);
+        context.fillStyle = "black";
+        context.font = "20px Helvetica";
+        context.fillText(String(this.lives), this.x, this.y);
     }
 }
 

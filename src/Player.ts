@@ -1,7 +1,8 @@
 import { Game } from "./Game";
+import { Item } from "./Item";
 import { Projectile } from "./Projectile";
 
-export class Player {
+export class Player implements Item {
     width: number;
     height: number;
     x: number;
