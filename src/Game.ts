@@ -1,5 +1,5 @@
 import {Background} from './Background';
-import {Angler1, Angler2, Drone, Enemy, HiveWhale, LuckyFish} from './Enemy';
+import {Angler1, Angler2, BulbWhale, Drone, Enemy, HiveWhale, LuckyFish, MoonFish} from './Enemy';
 import {InputHandler} from './InputHandler';
 import {Box} from './Protocol';
 import {Player} from './Player';
@@ -124,6 +124,10 @@ export class Game {
 							);
 						}
 
+						if (enemy.type === 'moon') {
+							this.player.enterPowerUp();
+						}
+
 						if (enemy.type === 'hive') {
 							for (let i = 0; i < 5; i++) {
 								this.enemies.push(
@@ -182,6 +186,10 @@ export class Game {
 			this.enemies.push(new Angler2(this));
 		} else if (randomize < 0.7) {
 			this.enemies.push(new HiveWhale(this));
+		} else if (randomize < 0.8) {
+			this.enemies.push(new BulbWhale(this));
+		} else if (randomize < 0.9) {
+			this.enemies.push(new MoonFish(this));
 		} else {
 			this.enemies.push(new LuckyFish(this));
 		}

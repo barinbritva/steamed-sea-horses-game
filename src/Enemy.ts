@@ -17,7 +17,7 @@ export abstract class Enemy implements Box, Sprite {
 		public height: number,
 		public lives: number,
 		public score: number,
-		public type: 'generic' | 'lucky' | 'hive' = 'generic',
+		public type: 'generic' | 'lucky' | 'hive' | 'moon' = 'generic',
 		speedX?: number
 	) {
 		this.speedX = speedX || Math.random() * -1.5 - 0.5;
@@ -167,6 +167,54 @@ export class Drone extends Enemy {
 			3,
 			'generic',
 			Math.random() * -4.2 - 0.5
+		);
+	}
+}
+
+export class BulbWhale extends Enemy {
+	constructor(game: Game) {
+		const width = 270;
+		const height = 219;
+		const image = document.getElementById('bulbwhale') as HTMLImageElement;
+		const frameY = Math.floor(Math.random() * 2);
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.95 - height),
+			width,
+			height,
+			20,
+			20,
+			'generic',
+			Math.random() * -1.2 - 0.2
+		);
+	}
+}
+
+export class MoonFish extends Enemy {
+	constructor(game: Game) {
+		const width = 227;
+		const height = 240;
+		const image = document.getElementById('moonfish') as HTMLImageElement;
+		const frameY = Math.floor(Math.random() * 2);
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.95 - height),
+			width,
+			height,
+			10,
+			10,
+			'moon',
+			Math.random() * -1.2 - 2
 		);
 	}
 }
