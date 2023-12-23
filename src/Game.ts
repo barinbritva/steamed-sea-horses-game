@@ -1,10 +1,11 @@
 import {Background} from './Background';
-import {Angler1, Angler2, Enemy, LuckyFish} from './Enemy';
+import {Angler1, Angler2, Drone, Enemy, HiveWhale, LuckyFish} from './Enemy';
 import {InputHandler} from './InputHandler';
 import {Box} from './Protocol';
 import {Player} from './Player';
 import {UI} from './UI';
 import {Particle} from './Particle';
+import {Explosion, FireExplosion, SmokeExplosion} from './Explosion';
 
 export class Game {
 	private background: Background;
@@ -25,6 +26,7 @@ export class Game {
 	public timeLimit: number = 15000;
 	public speed: number = 1;
 	public particles: Particle[];
+	public explosions: Explosion[];
 
 	constructor(
 		public width: number,
@@ -45,6 +47,7 @@ export class Game {
 		this.enemyInterval = 1000;
 		this.gameOver = false;
 		this.particles = [];
+		this.explosions = [];
 	}
 	update(deltaTime: number) {
 		if (!this.gameOver) {
@@ -73,13 +76,22 @@ export class Game {
 			return !particle.markedForDeletion;
 		});
 
+		// explosions
+		this.explosions.forEach((explosion) => {
+			explosion.update(deltaTime);
+		});
+		this.explosions = this.explosions.filter((explosion) => {
+			return !explosion.markedForDeletion;
+		});
+
 		// enemies
 		this.enemies.forEach((enemy) => {
 			enemy.update();
 			if (this.checkCollision(this.player, enemy)) {
 				enemy.markedForDeletion = true;
+				this.addExplosion(enemy);
 
-				for (let i = 0; i < 10; i++) {
+				for (let i = 0; i < enemy.score; i++) {
 					this.particles.push(
 						new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5)
 					);
@@ -102,11 +114,24 @@ export class Game {
 
 					if (enemy.lives <= 0) {
 						enemy.markedForDeletion = true;
+						this.addExplosion(enemy);
 
-						for (let i = 0; i < 10; i++) {
+						for (let i = 0; i < enemy.score; i++) {
 							this.particles.push(
 								new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5)
 							);
+						}
+
+						if (enemy.type === 'hive') {
+							for (let i = 0; i < 5; i++) {
+								this.enemies.push(
+									new Drone(
+										this,
+										enemy.x + Math.random() * enemy.width,
+										enemy.y + Math.random() * enemy.height * 0.5
+									)
+								);
+							}
 						}
 
 						if (!this.gameOver) {
@@ -141,6 +166,9 @@ export class Game {
 		this.enemies.forEach((enemy) => {
 			enemy.draw(context);
 		});
+		this.explosions.forEach((explosion) => {
+			explosion.draw(context);
+		});
 		this.background.layer4.draw(context);
 	}
 
@@ -150,8 +178,23 @@ export class Game {
 			this.enemies.push(new Angler1(this));
 		} else if (randomize < 0.6) {
 			this.enemies.push(new Angler2(this));
+		} else if (randomize < 0.8) {
+			this.enemies.push(new HiveWhale(this));
 		} else {
 			this.enemies.push(new LuckyFish(this));
+		}
+	}
+
+	addExplosion(enemy: Enemy) {
+		const randomize = Math.random();
+		if (randomize < 0.5) {
+			this.explosions.push(
+				new SmokeExplosion(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5)
+			);
+		} else {
+			this.explosions.push(
+				new FireExplosion(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5)
+			);
 		}
 	}
 

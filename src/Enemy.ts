@@ -17,9 +17,10 @@ export abstract class Enemy implements Box, Sprite {
 		public height: number,
 		public lives: number,
 		public score: number,
-		public type: 'generic' | 'lucky' = 'generic'
+		public type: 'generic' | 'lucky' | 'hive' = 'generic',
+		speedX?: number
 	) {
-		this.speedX = Math.random() * -1.5 - 0.5;
+		this.speedX = speedX || Math.random() * -1.5 - 0.5;
 		this.markedForDeletion = false;
 	}
 
@@ -68,7 +69,7 @@ export class Angler1 extends Enemy {
 			frameY,
 			37,
 			game.width,
-			Math.random() * (game.height * 0.9 - height),
+			Math.random() * (game.height * 0.95 - height),
 			width,
 			height,
 			2,
@@ -90,7 +91,7 @@ export class Angler2 extends Enemy {
 			frameY,
 			37,
 			game.width,
-			Math.random() * (game.height * 0.9 - height),
+			Math.random() * (game.height * 0.95 - height),
 			width,
 			height,
 			3,
@@ -112,12 +113,60 @@ export class LuckyFish extends Enemy {
 			frameY,
 			37,
 			game.width,
-			Math.random() * (game.height * 0.9 - height),
+			Math.random() * (game.height * 0.95 - height),
 			width,
 			height,
 			3,
 			15,
 			'lucky'
+		);
+	}
+}
+
+export class HiveWhale extends Enemy {
+	constructor(game: Game) {
+		const width = 400;
+		const height = 227;
+		const image = document.getElementById('hivewhale') as HTMLImageElement;
+		const frameY = 0;
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.95 - height),
+			width,
+			height,
+			15,
+			15,
+			'hive',
+			Math.random() * -1.2 - 0.2
+		);
+	}
+}
+
+export class Drone extends Enemy {
+	constructor(game: Game, x: number, y: number) {
+		const width = 115;
+		const height = 95;
+		const image = document.getElementById('drone') as HTMLImageElement;
+		const frameY = Math.floor(Math.random() * 2);
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			x,
+			y,
+			width,
+			height,
+			3,
+			3,
+			'generic',
+			Math.random() * -4.2 - 0.5
 		);
 	}
 }
