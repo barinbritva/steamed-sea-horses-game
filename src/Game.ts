@@ -7,6 +7,7 @@ import {UI} from './UI';
 import {Particle} from './Particle';
 import {Explosion, FireExplosion, SmokeExplosion} from './Explosion';
 import {SoundController} from './SoundController';
+import {Shield} from './Shield';
 
 export class Game {
 	private background: Background;
@@ -29,6 +30,7 @@ export class Game {
 	public speed: number = 1;
 	public particles: Particle[];
 	public explosions: Explosion[];
+	public shield: Shield;
 
 	constructor(
 		public width: number,
@@ -40,6 +42,7 @@ export class Game {
 		this.player = new Player(this);
 		this.ui = new UI(this);
 		this.sound = new SoundController();
+		this.shield = new Shield(this);
 		this.keys = [];
 		this.ammo = 20;
 		this.maxAmmo = 50;
@@ -71,6 +74,8 @@ export class Game {
 			this.ammoTimer += deltaTime;
 		}
 
+		this.shield.update(deltaTime);
+
 		// particles
 		this.particles.forEach((particle) => {
 			particle.update();
@@ -94,6 +99,7 @@ export class Game {
 				enemy.markedForDeletion = true;
 				this.addExplosion(enemy);
 				this.sound.hit();
+				this.shield.reset();
 
 				for (let i = 0; i < enemy.score; i++) {
 					this.particles.push(
@@ -171,6 +177,7 @@ export class Game {
 		this.background.draw(context);
 		this.ui.draw(context);
 		this.player.draw(context);
+		this.shield.draw(context);
 		this.particles.forEach((particle) => {
 			particle.draw(context);
 		});

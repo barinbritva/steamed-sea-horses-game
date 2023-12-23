@@ -200,7 +200,7 @@ export class MoonFish extends Enemy {
 		const width = 227;
 		const height = 240;
 		const image = document.getElementById('moonfish') as HTMLImageElement;
-		const frameY = Math.floor(Math.random() * 2);
+		const frameY = 0;
 		super(
 			game,
 			image,

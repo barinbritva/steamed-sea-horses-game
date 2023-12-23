@@ -5,7 +5,7 @@ export class SoundController {
 		private explosionSound = document.getElementById('explosion') as HTMLAudioElement,
 		private shotSound = document.getElementById('shot') as HTMLAudioElement,
 		private hitSound = document.getElementById('hit') as HTMLAudioElement,
-		private shieldSound = document.getElementById('shield') as HTMLAudioElement
+		private shieldSound = document.getElementById('shield-sound') as HTMLAudioElement
 	) {}
 
 	powerUp() {
