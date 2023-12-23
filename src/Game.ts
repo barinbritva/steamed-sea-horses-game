@@ -1,5 +1,16 @@
 import {Background} from './Background';
-import {Angler1, Angler2, BulbWhale, Drone, Enemy, HiveWhale, LuckyFish, MoonFish} from './Enemy';
+import {
+	Angler1,
+	Angler2,
+	BulbWhale,
+	Drone,
+	Enemy,
+	HiveWhale,
+	LuckyFish,
+	MoonFish,
+	RazorFin,
+	Stalker
+} from './Enemy';
 import {InputHandler} from './InputHandler';
 import {Box} from './Protocol';
 import {Player} from './Player';
@@ -192,8 +203,12 @@ export class Game {
 
 	addEnemy() {
 		const randomize = Math.random();
-		if (randomize < 0.3) {
+		if (randomize < 0.1) {
 			this.enemies.push(new Angler1(this));
+		} else if (randomize < 0.3) {
+			this.enemies.push(new Stalker(this));
+		} else if (randomize < 0.5) {
+			this.enemies.push(new RazorFin(this));
 		} else if (randomize < 0.6) {
 			this.enemies.push(new Angler2(this));
 		} else if (randomize < 0.7) {

@@ -218,3 +218,51 @@ export class MoonFish extends Enemy {
 		);
 	}
 }
+
+export class Stalker extends Enemy {
+	constructor(game: Game) {
+		const width = 243;
+		const height = 123;
+		const image = document.getElementById('stalker') as HTMLImageElement;
+		const frameY = 0;
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.95 - height),
+			width,
+			height,
+			5,
+			5,
+			'generic',
+			Math.random() * -1 - 1
+		);
+	}
+}
+
+export class RazorFin extends Enemy {
+	constructor(game: Game) {
+		const width = 187;
+		const height = 149;
+		const image = document.getElementById('razorfin') as HTMLImageElement;
+		const frameY = 0;
+		super(
+			game,
+			image,
+			0,
+			frameY,
+			37,
+			game.width,
+			Math.random() * (game.height * 0.95 - height),
+			width,
+			height,
+			7,
+			7,
+			'generic',
+			Math.random() * -1 - 1
+		);
+	}
+}
