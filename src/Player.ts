@@ -73,6 +73,7 @@ export class Player implements Box {
 				this.powerUp = false;
 				this.powerUpTimer = 0;
 				this.frameY = 0;
+				this.game.sound.powerDown();
 			} else {
 				this.powerUpTimer += deltaTime;
 				this.frameY = 1;
@@ -107,6 +108,7 @@ export class Player implements Box {
 			this.projectiles.push(new Projectile(this.game, this.x + 80, this.y + 30));
 			this.game.ammo--;
 		}
+		this.game.sound.shot();
 		if (this.powerUp) {
 			this.shootBottom();
 		}
@@ -125,5 +127,6 @@ export class Player implements Box {
 		if (this.game.ammo < this.game.maxAmmo) {
 			this.game.ammo = this.game.maxAmmo;
 		}
+		this.game.sound.powerUp();
 	}
 }

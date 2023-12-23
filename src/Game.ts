@@ -6,11 +6,13 @@ import {Player} from './Player';
 import {UI} from './UI';
 import {Particle} from './Particle';
 import {Explosion, FireExplosion, SmokeExplosion} from './Explosion';
+import {SoundController} from './SoundController';
 
 export class Game {
 	private background: Background;
 	public player: Player;
 	private ui: UI;
+	public sound: SoundController;
 	public keys: string[];
 	public ammo: number;
 	public maxAmmo: number;
@@ -37,6 +39,7 @@ export class Game {
 		this.background = new Background(this);
 		this.player = new Player(this);
 		this.ui = new UI(this);
+		this.sound = new SoundController();
 		this.keys = [];
 		this.ammo = 20;
 		this.maxAmmo = 50;
@@ -90,6 +93,7 @@ export class Game {
 			if (this.checkCollision(this.player, enemy)) {
 				enemy.markedForDeletion = true;
 				this.addExplosion(enemy);
+				this.sound.hit();
 
 				for (let i = 0; i < enemy.score; i++) {
 					this.particles.push(
@@ -117,6 +121,7 @@ export class Game {
 					if (enemy.lives <= 0) {
 						enemy.markedForDeletion = true;
 						this.addExplosion(enemy);
+						this.sound.explosion();
 
 						for (let i = 0; i < enemy.score; i++) {
 							this.particles.push(
