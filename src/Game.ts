@@ -21,9 +21,9 @@ export class Game {
 	private enemyInterval: number;
 	public gameOver: boolean;
 	public score: number = 0;
-	public winningScore: number = 10;
+	public winningScore: number = 80;
 	public gameTime: number = 0;
-	public timeLimit: number = 15000;
+	public timeLimit: number = 30000;
 	public speed: number = 1;
 	public particles: Particle[];
 	public explosions: Explosion[];
@@ -41,10 +41,10 @@ export class Game {
 		this.ammo = 20;
 		this.maxAmmo = 50;
 		this.ammoTimer = 0;
-		this.ammoInterval = 500;
+		this.ammoInterval = 350;
 		this.enemies = [];
 		this.enemyTimer = 0;
-		this.enemyInterval = 1000;
+		this.enemyInterval = 2000;
 		this.gameOver = false;
 		this.particles = [];
 		this.explosions = [];
@@ -100,7 +100,9 @@ export class Game {
 				if (enemy.type === 'lucky') {
 					this.player.enterPowerUp();
 				} else {
-					this.score--;
+					if (!this.gameOver) {
+						this.score--;
+					}
 				}
 			}
 			this.player.projectiles.forEach((projectile) => {
@@ -138,9 +140,9 @@ export class Game {
 							this.score += enemy.score;
 						}
 
-						if (this.score >= this.winningScore) {
+						/* if (this.score >= this.winningScore) {
 							this.gameOver = true;
-						}
+						} */
 					}
 				}
 			});
@@ -178,7 +180,7 @@ export class Game {
 			this.enemies.push(new Angler1(this));
 		} else if (randomize < 0.6) {
 			this.enemies.push(new Angler2(this));
-		} else if (randomize < 0.8) {
+		} else if (randomize < 0.7) {
 			this.enemies.push(new HiveWhale(this));
 		} else {
 			this.enemies.push(new LuckyFish(this));

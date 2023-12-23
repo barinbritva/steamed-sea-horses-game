@@ -72,8 +72,8 @@ export class Angler1 extends Enemy {
 			Math.random() * (game.height * 0.95 - height),
 			width,
 			height,
-			2,
-			2
+			5,
+			5
 		);
 	}
 }
@@ -94,8 +94,8 @@ export class Angler2 extends Enemy {
 			Math.random() * (game.height * 0.95 - height),
 			width,
 			height,
-			3,
-			3
+			6,
+			6
 		);
 	}
 }
@@ -116,7 +116,7 @@ export class LuckyFish extends Enemy {
 			Math.random() * (game.height * 0.95 - height),
 			width,
 			height,
-			3,
+			5,
 			15,
 			'lucky'
 		);
@@ -139,8 +139,8 @@ export class HiveWhale extends Enemy {
 			Math.random() * (game.height * 0.95 - height),
 			width,
 			height,
-			15,
-			15,
+			20,
+			20,
 			'hive',
 			Math.random() * -1.2 - 0.2
 		);
