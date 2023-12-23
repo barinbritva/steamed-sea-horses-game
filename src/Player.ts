@@ -54,7 +54,7 @@ export class Player implements Box {
 
 		// projectiles
 		this.projectiles.forEach((projectile) => {
-			projectile.update();
+			projectile.update(deltaTime);
 		});
 		this.projectiles = this.projectiles.filter((projectile) => {
 			return !projectile.markedForDeletion;
